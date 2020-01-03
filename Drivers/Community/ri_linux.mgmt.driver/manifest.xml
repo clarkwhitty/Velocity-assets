@@ -1,11 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <resourceDriver>
     <manifestVersion>1.4</manifestVersion>     
-    <version>1.0.0</version>
+    <version>1.1.1</version>
     <vendor>Spirent</vendor>     
     <language>itest</language>     
     <interface>Management</interface> 
     <entryPoint>linux.mgmt.driver.fftc</entryPoint>
+    <isBulkSupported>true</isBulkSupported>
     <resourceProperties>     
         <property optional="false">
             <name>ipAddress</name>

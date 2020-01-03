@@ -1,0 +1,21 @@
+<?xml version="1.0"?>
+<testCase version="8.1.0.201912080816">
+    <procedures>
+        <item name="main">
+            <steps>
+                <item guid="84237890-f9c9-4014-8409-d67818fc0f09" action="call" skip="true" useFieldsInCommand="false">
+                    <command>
+                        <body>linux.mgmt.driver.fftc#getPropertiesInBulk -resourceArray &quot;\\[{\\&quot;uuid\\&quot;: \\&quot;b42a7f86-b33d-43b5-bb64-65c0811afea2\\&quot;, \\&quot;ipAddress\\&quot;: \\&quot;10.20.12.131\\&quot;, \\&quot;Hostname\\&quot; : \\&quot;r1.spirenteng.com\\&quot;, \\&quot;SSH_Username\\&quot; : \\&quot;infonam\\&quot;, \\&quot;SSH_Password\\&quot; : \\&quot;infonam\\&quot;}, {\\&quot;uuid\\&quot;: \\&quot;b42a7f86-b33d-43b5-bb64-65c0811afea2\\&quot;, \\&quot;ipAddress\\&quot;: \\&quot;10.20.12.141\\&quot;, \\&quot;Hostname\\&quot; : \\&quot;r2.spirenteng.com\\&quot;, \\&quot;SSH_Username\\&quot; : \\&quot;root\\&quot;, \\&quot;SSH_Password\\&quot; : \\&quot;infonam1\\&quot;}]&quot; -includePorts true</body>
+                    </command>
+                    <applicationProperties type="com.fnfr.svt.documents.EmptyPropertyGroup"/>
+                </item>
+                <item guid="9fecfe39-ebc4-4692-8d02-1e048fb5c1f5" action="call" useFieldsInCommand="false">
+                    <command>
+                        <body>linux.mgmt.driver.fftc#getPropertiesInBulk -resourceArray &quot;\\[{\\&quot;uuid\\&quot;: \\&quot;b42a7f86-b33d-43b5-bb64-65c0811afea2\\&quot;, \\&quot;ipAddress\\&quot;: \\&quot;10.142.16.204\\&quot;, \\&quot;Hostname\\&quot; : \\&quot;ps-frr1.spirenteng.com\\&quot;, \\&quot;SSH_Username\\&quot; : \\&quot;ubuntu\\&quot;, \\&quot;SSH_Password\\&quot; : \\&quot;ubuntu\\&quot;}, {\\&quot;uuid\\&quot;: \\&quot;b42a7f86-b33d-43b5-bb64-65c0811afea2\\&quot;, \\&quot;ipAddress\\&quot;: \\&quot;10.142.16.224\\&quot;, \\&quot;Hostname\\&quot; : \\&quot;ps-frr2.spirenteng.com\\&quot;, \\&quot;SSH_Username\\&quot; : \\&quot;ubuntu\\&quot;, \\&quot;SSH_Password\\&quot; : \\&quot;ubuntu\\&quot;}]&quot; -includePorts true</body>
+                    </command>
+                    <applicationProperties type="com.fnfr.svt.documents.EmptyPropertyGroup"/>
+                </item>
+            </steps>
+        </item>
+    </procedures>
+</testCase>

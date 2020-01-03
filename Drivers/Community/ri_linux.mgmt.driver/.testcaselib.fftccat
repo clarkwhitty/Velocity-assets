@@ -1,2 +1,28 @@
 <?xml version="1.0"?>
-<TestCaseCatalog version="8.0.1.0"/>
+<TestCaseCatalog version="8.1.0.201912080816">
+    <testCaseCatalog>
+        <item name="linux.mgmt.driver.fftc">
+            <tcDescriptor version="8.1.0.201912080816">
+                <general>
+                    <documentation>linux driver</documentation>
+                    <notes>requires iTest 7.0 or above</notes>
+                    <owner>cwhitty</owner>
+                    <isProcedureLibrary>true</isProcedureLibrary>
+                </general>
+                <procedures>
+                    <item name="getPropertiesInBulk" isPublic="true">
+                        <arguments>
+                            <item name="includePorts">
+                                <defaultValue>false</defaultValue>
+                            </item>
+                            <item name="resourceArray">
+                                <defaultValue>\\[]</defaultValue>
+                            </item>
+                        </arguments>
+                        <response>{}</response>
+                    </item>
+                </procedures>
+            </tcDescriptor>
+        </item>
+    </testCaseCatalog>
+</TestCaseCatalog>

@@ -1,12 +1,13 @@
 <?xml version="1.0"?>
-<testCase version="7.0.0.2e413e8">
+<testCase version="8.1.0.201912080816">
     <general>
         <documentation>linux driver</documentation>
-        <notes>requires iTest 7.0 or above</notes>
+        <notes>requires iTest 7.0 or above for non-realtime mode
+requires iTest 8.1 or above for realtime mode</notes>
         <owner>cwhitty</owner>
     </general>
     <execution>
-        <parameters version="7.0.0.2e413e8">
+        <parameters version="8.1.0.201912080816">
             <parameters escape="true">
                 <parameters xmlns:pt="http://www.fnfr.com/schemas/parameterTree">
                     <call_count>1</call_count>
@@ -14,8 +15,8 @@
                     <property_ipAddress>10.108.38.84</property_ipAddress>
                     <property_Kernel_Release>unknown</property_Kernel_Release>
                     <property_Hostname>foobar</property_Hostname>
-                    <property_SSH_Username>root</property_SSH_Username>
-                    <property_SSH_Password>admin</property_SSH_Password>
+                    <property_SSH_Username>ubuntu</property_SSH_Username>
+                    <property_SSH_Password>ubuntu</property_SSH_Password>
                 </parameters>
             </parameters>
         </parameters>
@@ -23,14 +24,14 @@
     <procedures>
         <item name="main">
             <steps>
-                <item guid="df4b1883-0f90-4ac4-902d-0c623aceac70" action="comment">
+                <item guid="df4b1883-0f90-4ac4-902d-0c623aceac70" action="comment" useFieldsInCommand="false">
                     <command>
                         <body>open ssh session to linux</body>
                     </command>
                     <nestedSteps>
                         <item guid="90bc1fed-2966-4dac-b1a1-8599b5e800d2" action="open" session="s1">
                             <command>
-                                <body>project://ri_linux.mgmt.driver/session_profiles/ssh.ffsp</body>
+                                <body>session_profiles/ssh.ffsp</body>
                             </command>
                             <applicationProperties type="com.fnfr.svt.documents.OpenStepPropertyGroup">
                                 <stepProperties type="com.fnfr.svt.editors.terminal.documents.StepDefaultProperties"/>
@@ -41,33 +42,30 @@
                         </item>
                     </nestedSteps>
                     <applicationProperties type="com.fnfr.svt.documents.EmptyPropertyGroup"/>
-                    <useFieldsInCommand>false</useFieldsInCommand>
                 </item>
-                <item guid="d1539304-15a0-42dd-a908-53af9f5a75c8" action="comment">
+                <item guid="d1539304-15a0-42dd-a908-53af9f5a75c8" action="comment" useFieldsInCommand="false">
                     <command>
                         <body>call each procedure in call_count</body>
                     </command>
                     <nestedSteps>
-                        <item guid="a867356e-5daf-4f90-9588-364389cbd77b" action="for">
+                        <item guid="a867356e-5daf-4f90-9588-364389cbd77b" action="for" useFieldsInCommand="false">
                             <command>
                                 <body>{set i 0} {$i &lt; [param call_count]} {incr i}</body>
                             </command>
                             <nestedSteps>
-                                <item guid="06b32480-bbe6-48b9-b0e3-34773158e17c" action="eval">
+                                <item guid="06b32480-bbe6-48b9-b0e3-34773158e17c" action="eval" useFieldsInCommand="false">
                                     <command>
                                         <body>set cl [split [param call_$i]]</body>
                                     </command>
                                     <applicationProperties type="com.fnfr.svt.documents.EmptyPropertyGroup"/>
-                                    <useFieldsInCommand>false</useFieldsInCommand>
                                 </item>
-                                <item guid="0550d34e-5adf-4736-a532-0db59b54467a" action="eval">
+                                <item guid="0550d34e-5adf-4736-a532-0db59b54467a" action="eval" useFieldsInCommand="false">
                                     <command>
                                         <body>set params [lassign $cl proc]</body>
                                     </command>
                                     <applicationProperties type="com.fnfr.svt.documents.EmptyPropertyGroup"/>
-                                    <useFieldsInCommand>false</useFieldsInCommand>
                                 </item>
-                                <item guid="0e9d68ff-c8c2-4b6d-8f27-9fa62b1fd2e1" action="comment">
+                                <item guid="0e9d68ff-c8c2-4b6d-8f27-9fa62b1fd2e1" action="comment" useFieldsInCommand="false">
                                     <command>
                                         <body>message to user</body>
                                     </command>
@@ -80,6 +78,7 @@
                                                 <processorInfo ruleType="message">
                                                     <ruleProperties type="com.fnfr.svt.execution.builtin.processors.MessageProcessorPropertyGroup" severity="Information">
                                                         <message>Calling a proc called $proc with these parameters: $params</message>
+                                                        <tag sub="false" defaultValue=""/>
                                                     </ruleProperties>
                                                 </processorInfo>
                                             </item>
@@ -90,15 +89,15 @@
                                                 <processorInfo ruleType="message">
                                                     <ruleProperties type="com.fnfr.svt.execution.builtin.processors.MessageProcessorPropertyGroup" severity="Information">
                                                         <message>Resource IP address: [param property_ipAddress]</message>
+                                                        <tag sub="false" defaultValue=""/>
                                                     </ruleProperties>
                                                 </processorInfo>
                                             </item>
                                         </analysisRules>
                                     </postProcessing>
                                     <applicationProperties type="com.fnfr.svt.documents.EmptyPropertyGroup"/>
-                                    <useFieldsInCommand>false</useFieldsInCommand>
                                 </item>
-                                <item guid="60fd504b-771a-4066-9370-05977de89004" action="call">
+                                <item guid="60fd504b-771a-4066-9370-05977de89004" action="call" useFieldsInCommand="false">
                                     <command>
                                         <body>$proc $params</body>
                                     </command>
@@ -107,7 +106,6 @@
                                         <storeResponseText>true</storeResponseText>
                                     </postProcessing>
                                     <applicationProperties type="com.fnfr.svt.documents.EmptyPropertyGroup"/>
-                                    <useFieldsInCommand>false</useFieldsInCommand>
                                     <emulation>
                                         <behavior>
                                             <response>{
@@ -130,23 +128,20 @@
                                 </item>
                             </nestedSteps>
                             <applicationProperties type="com.fnfr.svt.documents.EmptyPropertyGroup"/>
-                            <useFieldsInCommand>false</useFieldsInCommand>
                         </item>
                     </nestedSteps>
                     <applicationProperties type="com.fnfr.svt.documents.EmptyPropertyGroup"/>
-                    <useFieldsInCommand>false</useFieldsInCommand>
                 </item>
-                <item guid="08061fb3-85b7-4195-ba61-a97be8ae89dc" action="comment">
+                <item guid="08061fb3-85b7-4195-ba61-a97be8ae89dc" action="comment" useFieldsInCommand="false">
                     <command>
                         <body>show and return JSON response</body>
                     </command>
                     <nestedSteps>
-                        <item guid="b2dd0fd5-4d89-4a56-9282-1b66eb6a369b" action="eval">
+                        <item guid="b2dd0fd5-4d89-4a56-9282-1b66eb6a369b" action="eval" useFieldsInCommand="false">
                             <command>
                                 <body>puts $ret</body>
                             </command>
                             <applicationProperties type="com.fnfr.svt.documents.EmptyPropertyGroup"/>
-                            <useFieldsInCommand>false</useFieldsInCommand>
                         </item>
                         <item guid="7337a47b-a9f8-45b0-8213-896b19c5e191" action="return">
                             <command>
@@ -156,9 +151,9 @@
                         </item>
                     </nestedSteps>
                     <applicationProperties type="com.fnfr.svt.documents.EmptyPropertyGroup"/>
-                    <useFieldsInCommand>false</useFieldsInCommand>
                 </item>
             </steps>
+            <response>{}</response>
         </item>
         <item name="getProperties" isVBlock="true">
             <steps>
@@ -177,6 +172,8 @@
                                 <processorInfo ruleType="store">
                                     <ruleProperties type="com.fnfr.svt.execution.builtin.processors.StoreProcessorPropertyGroup">
                                         <storageLocation>kernel</storageLocation>
+                                        <responseValue type="com.fnfr.documents.PropertyBoolean">false</responseValue>
+                                        <variable type="com.fnfr.documents.PropertyBoolean">true</variable>
                                     </ruleProperties>
                                 </processorInfo>
                             </item>
@@ -209,6 +206,8 @@
                                 <processorInfo ruleType="store">
                                     <ruleProperties type="com.fnfr.svt.execution.builtin.processors.StoreProcessorPropertyGroup">
                                         <storageLocation>hostname</storageLocation>
+                                        <responseValue type="com.fnfr.documents.PropertyBoolean">false</responseValue>
+                                        <variable type="com.fnfr.documents.PropertyBoolean">true</variable>
                                     </ruleProperties>
                                 </processorInfo>
                             </item>
@@ -226,7 +225,7 @@
                         <editResponseStructure inherit="false">true</editResponseStructure>
                     </applicationProperties>
                 </item>
-                <item guid="e6a12127-8f3e-4a8e-a0db-9def76571680" action="call">
+                <item guid="e6a12127-8f3e-4a8e-a0db-9def76571680" action="call" useFieldsInCommand="false">
                     <command>
                         <body>getPorts</body>
                     </command>
@@ -241,13 +240,14 @@
                                 <processorInfo ruleType="store">
                                     <ruleProperties type="com.fnfr.svt.execution.builtin.processors.StoreProcessorPropertyGroup">
                                         <storageLocation>jsonPortList</storageLocation>
+                                        <responseValue type="com.fnfr.documents.PropertyBoolean">false</responseValue>
+                                        <variable type="com.fnfr.documents.PropertyBoolean">true</variable>
                                     </ruleProperties>
                                 </processorInfo>
                             </item>
                         </analysisRules>
                     </postProcessing>
                     <applicationProperties type="com.fnfr.svt.documents.EmptyPropertyGroup"/>
-                    <useFieldsInCommand>false</useFieldsInCommand>
                     <emulation>
                         <behavior>
                             <response>{&quot;name&quot;:&quot;//10.108.32.17/1/1&quot;,&quot;status&quot;:&quot;online&quot;,&quot;container&quot;:&quot;slot1_cm-1g-d12_E10210259/group1_E10210259&quot;} {&quot;name&quot;:&quot;//10.108.32.17/1/2&quot;,&quot;status&quot;:&quot;online&quot;,&quot;container&quot;:&quot;slot1_cm-1g-d12_E10210259/group1_E10210259&quot;} {&quot;name&quot;:&quot;//10.108.32.17/1/3&quot;,&quot;status&quot;:&quot;online&quot;,&quot;container&quot;:&quot;slot1_cm-1g-d12_E10210259/group2_E10210259&quot;} {&quot;name&quot;:&quot;//10.108.32.17/1/4&quot;,&quot;status&quot;:&quot;online&quot;,&quot;container&quot;:&quot;slot1_cm-1g-d12_E10210259/group2_E10210259&quot;} {&quot;name&quot;:&quot;//10.108.32.17/1/5&quot;,&quot;status&quot;:&quot;online&quot;,&quot;container&quot;:&quot;slot1_cm-1g-d12_E10210259/group3_E10210259&quot;} {&quot;name&quot;:&quot;//10.108.32.17/1/6&quot;,&quot;status&quot;:&quot;online&quot;,&quot;container&quot;:&quot;slot1_cm-1g-d12_E10210259/group3_E10210259&quot;} {&quot;name&quot;:&quot;//10.108.32.17/1/7&quot;,&quot;status&quot;:&quot;online&quot;,&quot;container&quot;:&quot;slot1_cm-1g-d12_E10210259/group4_E10210259&quot;} {&quot;name&quot;:&quot;//10.108.32.17/1/8&quot;,&quot;status&quot;:&quot;online&quot;,&quot;container&quot;:&quot;slot1_cm-1g-d12_E10210259/group4_E10210259&quot;} {&quot;name&quot;:&quot;//10.108.32.17/1/9&quot;,&quot;status&quot;:&quot;online&quot;,&quot;container&quot;:&quot;slot1_cm-1g-d12_E10210259/group5_E10210259&quot;} {&quot;name&quot;:&quot;//10.108.32.17/1/10&quot;,&quot;status&quot;:&quot;online&quot;,&quot;container&quot;:&quot;slot1_cm-1g-d12_E10210259/group5_E10210259&quot;} {&quot;name&quot;:&quot;//10.108.32.17/1/11&quot;,&quot;status&quot;:&quot;online&quot;,&quot;container&quot;:&quot;slot1_cm-1g-d12_E10210259/group6_E10210259&quot;} {&quot;name&quot;:&quot;//10.108.32.17/1/12&quot;,&quot;status&quot;:&quot;online&quot;,&quot;container&quot;:&quot;slot1_cm-1g-d12_E10210259/group6_E10210259&quot;} {&quot;name&quot;:&quot;//10.108.32.17/2/1&quot;,&quot;status&quot;:&quot;online&quot;,&quot;container&quot;:&quot;slot2_cm-1g-d12_E10220545/group1_E10220545&quot;} {&quot;name&quot;:&quot;//10.108.32.17/2/2&quot;,&quot;status&quot;:&quot;online&quot;,&quot;container&quot;:&quot;slot2_cm-1g-d12_E10220545/group1_E10220545&quot;} {&quot;name&quot;:&quot;//10.108.32.17/2/3&quot;,&quot;status&quot;:&quot;online&quot;,&quot;container&quot;:&quot;slot2_cm-1g-d12_E10220545/group2_E10220545&quot;} {&quot;name&quot;:&quot;//10.108.32.17/2/4&quot;,&quot;status&quot;:&quot;online&quot;,&quot;container&quot;:&quot;slot2_cm-1g-d12_E10220545/group2_E10220545&quot;} {&quot;name&quot;:&quot;//10.108.32.17/2/5&quot;,&quot;status&quot;:&quot;online&quot;,&quot;container&quot;:&quot;slot2_cm-1g-d12_E10220545/group3_E10220545&quot;} {&quot;name&quot;:&quot;//10.108.32.17/2/6&quot;,&quot;status&quot;:&quot;online&quot;,&quot;container&quot;:&quot;slot2_cm-1g-d12_E10220545/group3_E10220545&quot;} {&quot;name&quot;:&quot;//10.108.32.17/2/7&quot;,&quot;status&quot;:&quot;online&quot;,&quot;container&quot;:&quot;slot2_cm-1g-d12_E10220545/group4_E10220545&quot;} {&quot;name&quot;:&quot;//10.108.32.17/2/8&quot;,&quot;status&quot;:&quot;online&quot;,&quot;container&quot;:&quot;slot2_cm-1g-d12_E10220545/group4_E10220545&quot;} {&quot;name&quot;:&quot;//10.108.32.17/2/9&quot;,&quot;status&quot;:&quot;online&quot;,&quot;container&quot;:&quot;slot2_cm-1g-d12_E10220545/group5_E10220545&quot;} {&quot;name&quot;:&quot;//10.108.32.17/2/10&quot;,&quot;status&quot;:&quot;online&quot;,&quot;container&quot;:&quot;slot2_cm-1g-d12_E10220545/group5_E10220545&quot;} {&quot;name&quot;:&quot;//10.108.32.17/2/11&quot;,&quot;status&quot;:&quot;online&quot;,&quot;container&quot;:&quot;slot2_cm-1g-d12_E10220545/group6_E10220545&quot;} {&quot;name&quot;:&quot;//10.108.32.17/2/12&quot;,&quot;status&quot;:&quot;online&quot;,&quot;container&quot;:&quot;slot2_cm-1g-d12_E10220545/group6_E10220545&quot;}</response>
@@ -296,6 +296,8 @@
                                 <processorInfo ruleType="store">
                                     <ruleProperties type="com.fnfr.svt.execution.builtin.processors.StoreProcessorPropertyGroup">
                                         <storageLocation>portList</storageLocation>
+                                        <responseValue type="com.fnfr.documents.PropertyBoolean">false</responseValue>
+                                        <variable type="com.fnfr.documents.PropertyBoolean">true</variable>
                                     </ruleProperties>
                                 </processorInfo>
                             </item>
@@ -318,6 +320,8 @@
                                 <processorInfo ruleType="store">
                                     <ruleProperties type="com.fnfr.svt.execution.builtin.processors.StoreProcessorPropertyGroup">
                                         <storageLocation>portList</storageLocation>
+                                        <responseValue type="com.fnfr.documents.PropertyBoolean">false</responseValue>
+                                        <variable type="com.fnfr.documents.PropertyBoolean">true</variable>
                                     </ruleProperties>
                                 </processorInfo>
                             </item>
@@ -331,14 +335,13 @@
                     </command>
                     <applicationProperties type="com.fnfr.svt.editors.terminal.documents.StepDefaultProperties"/>
                 </item>
-                <item guid="1f2543ca-3f58-4449-ae9d-36c4581d4728" action="eval">
+                <item guid="1f2543ca-3f58-4449-ae9d-36c4581d4728" action="eval" useFieldsInCommand="false">
                     <command>
                         <body>set jsonPortList &quot;&quot;</body>
                     </command>
                     <applicationProperties type="com.fnfr.svt.documents.EmptyPropertyGroup"/>
-                    <useFieldsInCommand>false</useFieldsInCommand>
                 </item>
-                <item guid="8d0fdf5e-deff-4377-aa0b-625930a7d288" action="foreach">
+                <item guid="8d0fdf5e-deff-4377-aa0b-625930a7d288" action="foreach" useFieldsInCommand="false">
                     <command>
                         <body>port $portList</body>
                     </command>
@@ -391,10 +394,831 @@
                         </item>
                     </nestedSteps>
                     <applicationProperties type="com.fnfr.svt.documents.EmptyPropertyGroup"/>
-                    <useFieldsInCommand>false</useFieldsInCommand>
                 </item>
             </steps>
-            <response>{ &quot;ports&quot; : [] }</response>
+            <response>{&quot;ports&quot;:[]}</response>
+        </item>
+        <item name="getDeviceHostParameter">
+            <steps>
+                <item guid="9c52ae51-995c-4e1f-a376-5c78b9c23d13" action="eval" useFieldsInCommand="false">
+                    <command>
+                        <body>set deviceHost &quot;&quot;</body>
+                    </command>
+                    <applicationProperties type="com.fnfr.svt.documents.EmptyPropertyGroup"/>
+                </item>
+                <item guid="358b851d-e497-4574-827e-ab1c05fd6d3c" action="if" useFieldsInCommand="false">
+                    <command>
+                        <body>$ipAddress != &quot;&quot;</body>
+                    </command>
+                    <nestedSteps>
+                        <item guid="cf83a72b-e0be-4d8d-925d-a8a25d5bb276" action="then" useFieldsInCommand="false">
+                            <nestedSteps>
+                                <item guid="fb4f815f-6188-4f89-b35d-66d547bb0c63" action="eval" useFieldsInCommand="false">
+                                    <command>
+                                        <body>set deviceHost $ipAddress</body>
+                                    </command>
+                                    <applicationProperties type="com.fnfr.svt.documents.EmptyPropertyGroup"/>
+                                </item>
+                            </nestedSteps>
+                            <applicationProperties type="com.fnfr.svt.documents.EmptyPropertyGroup"/>
+                        </item>
+                        <item guid="b22384fd-ab9b-4759-85a6-bf7a403cda74" action="else" useFieldsInCommand="false">
+                            <nestedSteps>
+                                <item guid="3fc6a548-e94a-4da2-8d3e-e36ab6bf52ed" action="if" useFieldsInCommand="false">
+                                    <command>
+                                        <body>$Hostname != &quot;&quot;</body>
+                                    </command>
+                                    <nestedSteps>
+                                        <item guid="2825c7b0-ebfb-4d32-8fa2-3b8e908d0991" action="then" useFieldsInCommand="false">
+                                            <nestedSteps>
+                                                <item guid="d8ba0246-bd9f-44ed-a3e5-2eb281b75f65" action="eval" useFieldsInCommand="false">
+                                                    <command>
+                                                        <body>set deviceHost $Hostname</body>
+                                                    </command>
+                                                    <applicationProperties type="com.fnfr.svt.documents.EmptyPropertyGroup"/>
+                                                </item>
+                                            </nestedSteps>
+                                            <applicationProperties type="com.fnfr.svt.documents.EmptyPropertyGroup"/>
+                                        </item>
+                                    </nestedSteps>
+                                    <applicationProperties type="com.fnfr.svt.documents.EmptyPropertyGroup"/>
+                                </item>
+                            </nestedSteps>
+                            <applicationProperties type="com.fnfr.svt.documents.EmptyPropertyGroup"/>
+                        </item>
+                    </nestedSteps>
+                    <applicationProperties type="com.fnfr.svt.documents.EmptyPropertyGroup"/>
+                </item>
+                <item guid="554c3bbb-744b-44cd-8fb1-719976523d76" action="return">
+                    <command>
+                        <body>$deviceHost</body>
+                    </command>
+                    <applicationProperties type="com.fnfr.svt.documents.EmptyPropertyGroup"/>
+                </item>
+            </steps>
+            <arguments>
+                <item name="ipAddress">
+                    <isMandatory>true</isMandatory>
+                </item>
+                <item name="Hostname">
+                    <isMandatory>true</isMandatory>
+                </item>
+            </arguments>
+            <response>{}</response>
+        </item>
+        <item name="getDeviceProperties" defaultSessionProfile="application:com.fnfr.svt.applications.ssh" isVBlock="true">
+            <steps>
+                <item guid="67c59f26-ba3d-42a6-8200-2637b8d4508a" action="command" session="$session">
+                    <command>
+                        <body>echo kernel: `uname -r`</body>
+                    </command>
+                    <postProcessing>
+                        <analysisRules>
+                            <item>
+                                <extractorInfo extractorType="query">
+                                    <extractorProperties type="com.fnfr.svt.mapping.execution.extractors.QueryDataExtractorPropertyGroup" declareNoMatchIssue="false">
+                                        <query>kernel()</query>
+                                    </extractorProperties>
+                                </extractorInfo>
+                                <processorInfo ruleType="store">
+                                    <ruleProperties type="com.fnfr.svt.execution.builtin.processors.StoreProcessorPropertyGroup">
+                                        <storageLocation>kernel</storageLocation>
+                                        <responseValue type="com.fnfr.documents.PropertyBoolean">false</responseValue>
+                                        <variable type="com.fnfr.documents.PropertyBoolean">true</variable>
+                                    </ruleProperties>
+                                </processorInfo>
+                            </item>
+                        </analysisRules>
+                    </postProcessing>
+                    <eventHandlers>
+                        <item name="OnMappingFail">
+                            <item actionId="DeclareExecutionIssue">
+                                <actionProperties type="com.fnfr.svt.execution.builtin.actions.ExecutionIssuePropertyGroup"/>
+                            </item>
+                        </item>
+                    </eventHandlers>
+                    <applicationProperties type="com.fnfr.svt.editors.terminal.documents.StepDefaultProperties"/>
+                </item>
+                <item guid="911fbfe0-9890-4a3d-a82e-c75004174f99" action="if" useFieldsInCommand="false">
+                    <command>
+                        <body>[info exists local kernel] == 1</body>
+                    </command>
+                    <nestedSteps>
+                        <item guid="d6f892a8-e93b-428a-bc11-e4be2d7d43af" action="then" useFieldsInCommand="false">
+                            <nestedSteps>
+                                <item guid="77c4ce29-d490-41e4-b225-d217a6764b7d" action="json" useFieldsInCommand="false">
+                                    <command>
+                                        <body>-action setJsonValue -editResponseStructure true -pathValue {&quot;properties/Kernel_Release&quot;:&quot;$kernel&quot;}</body>
+                                    </command>
+                                    <applicationProperties type="com.fnfr.svt.execution.builtin.json.JsonPropertiesGroup">
+                                        <action inherit="false">setJsonValue</action>
+                                        <pathValue inherit="false" sub="true">{&quot;properties/Kernel_Release&quot;:&quot;$kernel&quot;}</pathValue>
+                                        <editResponseStructure inherit="false">true</editResponseStructure>
+                                    </applicationProperties>
+                                </item>
+                            </nestedSteps>
+                            <applicationProperties type="com.fnfr.svt.documents.EmptyPropertyGroup"/>
+                        </item>
+                    </nestedSteps>
+                    <applicationProperties type="com.fnfr.svt.documents.EmptyPropertyGroup"/>
+                </item>
+                <item guid="0458cc25-d2ae-4f25-aa9a-4c70ec7c5927" action="command" session="$session">
+                    <command>
+                        <body>echo hostname: `uname -n`</body>
+                    </command>
+                    <postProcessing>
+                        <analysisRules>
+                            <item>
+                                <extractorInfo extractorType="query">
+                                    <extractorProperties type="com.fnfr.svt.mapping.execution.extractors.QueryDataExtractorPropertyGroup" declareNoMatchIssue="false">
+                                        <query>hostname()</query>
+                                    </extractorProperties>
+                                </extractorInfo>
+                                <processorInfo ruleType="store">
+                                    <ruleProperties type="com.fnfr.svt.execution.builtin.processors.StoreProcessorPropertyGroup">
+                                        <storageLocation>hostname</storageLocation>
+                                        <responseValue type="com.fnfr.documents.PropertyBoolean">false</responseValue>
+                                        <variable type="com.fnfr.documents.PropertyBoolean">true</variable>
+                                    </ruleProperties>
+                                </processorInfo>
+                            </item>
+                        </analysisRules>
+                    </postProcessing>
+                    <eventHandlers>
+                        <item name="OnMappingFail">
+                            <item actionId="DeclareExecutionIssue">
+                                <actionProperties type="com.fnfr.svt.execution.builtin.actions.ExecutionIssuePropertyGroup"/>
+                            </item>
+                        </item>
+                    </eventHandlers>
+                    <applicationProperties type="com.fnfr.svt.editors.terminal.documents.StepDefaultProperties"/>
+                </item>
+                <item guid="c00016b0-32ae-4e77-ad8d-1fa3ad5bc8b3" action="if" useFieldsInCommand="false">
+                    <command>
+                        <body>[info exists local hostname] == 1</body>
+                    </command>
+                    <nestedSteps>
+                        <item guid="f0afcff9-6360-47fc-8989-3085ddb7e8f0" action="then" useFieldsInCommand="false">
+                            <nestedSteps>
+                                <item guid="a687626d-d75d-45cb-b89b-6420da55d163" action="json" useFieldsInCommand="false">
+                                    <command>
+                                        <body>-action setJsonValue -editResponseStructure true -pathValue {&quot;properties/Hostname&quot;:&quot;$hostname&quot;}</body>
+                                    </command>
+                                    <applicationProperties type="com.fnfr.svt.execution.builtin.json.JsonPropertiesGroup">
+                                        <action inherit="false">setJsonValue</action>
+                                        <pathValue inherit="false" sub="true">{&quot;properties/Hostname&quot;:&quot;$hostname&quot;}</pathValue>
+                                        <editResponseStructure inherit="false">true</editResponseStructure>
+                                    </applicationProperties>
+                                </item>
+                            </nestedSteps>
+                            <applicationProperties type="com.fnfr.svt.documents.EmptyPropertyGroup"/>
+                        </item>
+                    </nestedSteps>
+                    <applicationProperties type="com.fnfr.svt.documents.EmptyPropertyGroup"/>
+                </item>
+            </steps>
+            <arguments>
+                <item name="session">
+                    <isMandatory>true</isMandatory>
+                </item>
+            </arguments>
+            <response>{&quot;properties&quot;:{&quot;Hostname&quot;:&quot;unknown&quot;,&quot;Kernel_Release&quot;:&quot;unknown&quot;}}</response>
+        </item>
+        <item name="getDevicePorts" defaultSessionProfile="application:com.fnfr.svt.applications.ssh" isVBlock="true">
+            <steps>
+                <item guid="83a11086-2ba8-418b-9818-768275d50070" action="command" session="$session">
+                    <command>
+                        <body>ls -l /sys/class/net/ |grep --color=never -v /devices/virtual/net</body>
+                    </command>
+                    <postProcessing>
+                        <analysisRules>
+                            <item>
+                                <extractorInfo extractorType="query">
+                                    <extractorProperties type="com.fnfr.svt.mapping.execution.extractors.QueryDataExtractorPropertyGroup" declareNoMatchIssue="false">
+                                        <query>Iface_all()</query>
+                                    </extractorProperties>
+                                </extractorInfo>
+                                <processorInfo ruleType="store">
+                                    <ruleProperties type="com.fnfr.svt.execution.builtin.processors.StoreProcessorPropertyGroup">
+                                        <storageLocation>portList</storageLocation>
+                                        <responseValue type="com.fnfr.documents.PropertyBoolean">false</responseValue>
+                                        <variable type="com.fnfr.documents.PropertyBoolean">true</variable>
+                                    </ruleProperties>
+                                </processorInfo>
+                            </item>
+                        </analysisRules>
+                    </postProcessing>
+                    <eventHandlers>
+                        <item name="OnMappingFail">
+                            <item actionId="DeclareExecutionIssue">
+                                <actionProperties type="com.fnfr.svt.execution.builtin.actions.ExecutionIssuePropertyGroup"/>
+                            </item>
+                        </item>
+                    </eventHandlers>
+                    <applicationProperties type="com.fnfr.svt.editors.terminal.documents.StepDefaultProperties"/>
+                </item>
+                <item guid="05174abd-15b0-45eb-bc11-6880f053e22c" action="command" session="$session">
+                    <command>
+                        <body>cd /sys/class/net</body>
+                    </command>
+                    <eventHandlers>
+                        <item name="OnMappingFail">
+                            <item actionId="DeclareExecutionIssue">
+                                <actionProperties type="com.fnfr.svt.execution.builtin.actions.ExecutionIssuePropertyGroup"/>
+                            </item>
+                        </item>
+                    </eventHandlers>
+                    <applicationProperties type="com.fnfr.svt.editors.terminal.documents.StepDefaultProperties"/>
+                </item>
+                <item guid="449ef6b7-9c4b-45e8-be68-cb890b4c32e8" action="eval" useFieldsInCommand="false">
+                    <command>
+                        <body>set jsonPortList &quot;&quot;</body>
+                    </command>
+                    <applicationProperties type="com.fnfr.svt.documents.EmptyPropertyGroup"/>
+                </item>
+                <item guid="fc52d991-eb27-4ec3-9dd5-68c42b7190ba" action="foreach" useFieldsInCommand="false">
+                    <command>
+                        <body>port $portList</body>
+                    </command>
+                    <nestedSteps>
+                        <item guid="1e26bbe3-0761-4b92-bedb-4ad68bd1b1d8" action="command" session="$session">
+                            <command>
+                                <body>if \\[ `more $port/carrier` \\] ; then echo linkState: `more $port/carrier` ; else echo linkState: 0 ; fi</body>
+                            </command>
+                            <postProcessing>
+                                <analysisRules>
+                                    <item>
+                                        <extractorInfo extractorType="query">
+                                            <extractorProperties type="com.fnfr.svt.mapping.execution.extractors.QueryDataExtractorPropertyGroup" declareNoMatchIssue="false">
+                                                <query>linkState()</query>
+                                            </extractorProperties>
+                                        </extractorInfo>
+                                        <processorInfo ruleType="assert">
+                                            <ruleProperties type="com.fnfr.svt.execution.builtin.processors.AssertionPropertyGroup">
+                                                <expression>$value == 1</expression>
+                                                <actionsWhenTrue>
+                                                    <item actionId="Eval">
+                                                        <actionProperties type="com.fnfr.svt.execution.builtin.actions.EvalActionPropertyGroup">
+                                                            <statement>set portStatus online</statement>
+                                                        </actionProperties>
+                                                    </item>
+                                                </actionsWhenTrue>
+                                                <actionsWhenFalse>
+                                                    <item actionId="Eval">
+                                                        <actionProperties type="com.fnfr.svt.execution.builtin.actions.EvalActionPropertyGroup">
+                                                            <statement>set portStatus offline</statement>
+                                                        </actionProperties>
+                                                    </item>
+                                                </actionsWhenFalse>
+                                            </ruleProperties>
+                                        </processorInfo>
+                                    </item>
+                                </analysisRules>
+                            </postProcessing>
+                            <eventHandlers>
+                                <item name="OnMappingFail">
+                                    <item actionId="DeclareExecutionIssue">
+                                        <actionProperties type="com.fnfr.svt.execution.builtin.actions.ExecutionIssuePropertyGroup"/>
+                                    </item>
+                                </item>
+                            </eventHandlers>
+                            <applicationProperties type="com.fnfr.svt.editors.terminal.documents.StepDefaultProperties"/>
+                        </item>
+                        <item guid="0a6d6fae-ec9c-4d0a-adce-fa4cdc808045" action="json" useFieldsInCommand="false">
+                            <command>
+                                <body>-action addJsonNode -editResponseStructure true -pathValue {&quot;ports/\\[0]&quot;:\\[{&quot;container&quot;:&quot;ports&quot;,&quot;name&quot;:&quot;$port&quot;,&quot;status&quot;:&quot;$portStatus&quot;}]}</body>
+                            </command>
+                            <applicationProperties type="com.fnfr.svt.execution.builtin.json.JsonPropertiesGroup">
+                                <action inherit="false">addJsonNode</action>
+                                <pathValue inherit="false" sub="true">{&quot;ports/\\[0]&quot;:\\[{&quot;container&quot;:&quot;ports&quot;,&quot;name&quot;:&quot;$port&quot;,&quot;status&quot;:&quot;$portStatus&quot;}]}</pathValue>
+                                <editResponseStructure inherit="false">true</editResponseStructure>
+                            </applicationProperties>
+                        </item>
+                    </nestedSteps>
+                    <applicationProperties type="com.fnfr.svt.documents.EmptyPropertyGroup"/>
+                </item>
+            </steps>
+            <arguments>
+                <item name="session">
+                    <isMandatory>true</isMandatory>
+                </item>
+            </arguments>
+            <response>{&quot;ports&quot;:[]}</response>
+        </item>
+        <item name="getPropertiesInBulk" isPublic="true">
+            <steps>
+                <item guid="651a8a7d-a3f2-487a-af8a-49f51fc00f84" action="comment" useFieldsInCommand="false">
+                    <command>
+                        <body>Create a global JSON document object that will contain a json array of objects - {&quot;array&quot;:[]}</body>
+                    </command>
+                    <nestedSteps>
+                        <item guid="9e338625-8854-4c9f-9ec1-670e1df1694d" action="json" useFieldsInCommand="false">
+                            <command>
+                                <body>-action createJson -globalScope true -documentName resultJson -fromFile false -jsonString {&quot;array&quot;:[]}</body>
+                            </command>
+                            <applicationProperties type="com.fnfr.svt.execution.builtin.json.JsonPropertiesGroup">
+                                <action inherit="false">createJson</action>
+                                <jsonString inherit="false">{&quot;array&quot;:[]}</jsonString>
+                                <documentName inherit="false">resultJson</documentName>
+                                <globalScope inherit="false">true</globalScope>
+                            </applicationProperties>
+                        </item>
+                    </nestedSteps>
+                    <applicationProperties type="com.fnfr.svt.documents.EmptyPropertyGroup"/>
+                </item>
+                <item guid="bc5d5411-3e2c-443e-8fff-4d3faf919992" action="comment" useFieldsInCommand="false">
+                    <command>
+                        <body>Create local json object from input json array &quot;resourceArray&quot;, stored to $resourceArrayObject, store items count to $resourceItemCount</body>
+                    </command>
+                    <nestedSteps>
+                        <item guid="bd7d371e-e060-47d8-9f1c-61132fe44eb3" action="json" useFieldsInCommand="false">
+                            <command>
+                                <body>-action createJson -documentName resourceArrayObject -fromFile false -jsonString {&quot;resourceArray&quot;: $resourceArray}</body>
+                            </command>
+                            <postProcessing>
+                                <analysisRules>
+                                    <item>
+                                        <extractorInfo extractorType="query">
+                                            <extractorProperties type="com.fnfr.svt.mapping.execution.extractors.QueryDataExtractorPropertyGroup">
+                                                <query>count(mapped/Json/resourceArray/item)</query>
+                                            </extractorProperties>
+                                        </extractorInfo>
+                                        <processorInfo ruleType="store">
+                                            <ruleProperties type="com.fnfr.svt.execution.builtin.processors.StoreProcessorPropertyGroup">
+                                                <storageLocation>resourceItemCount</storageLocation>
+                                                <responseValue type="com.fnfr.documents.PropertyBoolean">false</responseValue>
+                                                <variable type="com.fnfr.documents.PropertyBoolean">true</variable>
+                                            </ruleProperties>
+                                        </processorInfo>
+                                    </item>
+                                </analysisRules>
+                            </postProcessing>
+                            <eventHandlers>
+                                <item name="onExecJsonCreateError">
+                                    <item actionId="DeclareExecutionIssue">
+                                        <actionProperties type="com.fnfr.svt.execution.builtin.actions.ExecutionIssuePropertyGroup">
+                                            <message> resourceArray is invalid. It should be an JSON Array.</message>
+                                        </actionProperties>
+                                    </item>
+                                    <item actionId="FailTest">
+                                        <actionProperties type="com.fnfr.svt.documents.EmptyPropertyGroup"/>
+                                    </item>
+                                </item>
+                            </eventHandlers>
+                            <applicationProperties type="com.fnfr.svt.execution.builtin.json.JsonPropertiesGroup">
+                                <action inherit="false">createJson</action>
+                                <jsonString inherit="false" sub="true">{&quot;resourceArray&quot;: $resourceArray}</jsonString>
+                                <documentName inherit="false">resourceArrayObject</documentName>
+                            </applicationProperties>
+                        </item>
+                    </nestedSteps>
+                    <applicationProperties type="com.fnfr.svt.documents.EmptyPropertyGroup"/>
+                </item>
+                <item guid="39a06fbb-35f6-4e18-b675-86ca043a3cf3" action="comment" useFieldsInCommand="false">
+                    <command>
+                        <body>Use getJsonNode command to get each resource object&apos;s information and call getDeviceStatusInBulk to get status, update to global JSON document</body>
+                    </command>
+                    <nestedSteps>
+                        <item guid="f845f718-e36c-4b7a-a426-9d38a18a4d73" action="for" useFieldsInCommand="false">
+                            <command>
+                                <body>{set resourceIndex 0} {$resourceIndex &lt; $resourceItemCount} {incr resourceIndex}</body>
+                            </command>
+                            <nestedSteps>
+                                <item guid="dbda732f-6039-486d-84ff-1fbe5690ad88" action="comment">
+                                    <command>
+                                        <body>Get information of resource item [expr $resourceIndex + 1] (run in new thread)</body>
+                                    </command>
+                                    <nestedSteps>
+                                        <item guid="bd6fa5d7-3585-48e4-ab19-5077ecb26c1c" action="eval" useFieldsInCommand="false">
+                                            <command>
+                                                <body>set deviceHost &quot;&quot;</body>
+                                            </command>
+                                            <applicationProperties type="com.fnfr.svt.documents.EmptyPropertyGroup"/>
+                                        </item>
+                                        <item guid="11812157-11c5-4fe0-9822-27bb45b587a5" action="comment" useFieldsInCommand="false">
+                                            <command>
+                                                <body>get each resource object&apos;s information: uuid, ipAddress, Hostname, SSH_Username, SSH_Password</body>
+                                            </command>
+                                            <nestedSteps>
+                                                <item guid="baf4b2fb-144f-40a9-bba4-7aeff588b2d7" action="json" useFieldsInCommand="false">
+                                                    <command>
+                                                        <body>-action getJsonNode -editResponseStructure false -documentName resourceArrayObject -pathValue {&quot;resourceArray/\\[$resourceIndex]&quot;}</body>
+                                                    </command>
+                                                    <postProcessing>
+                                                        <analysisRules>
+                                                            <item>
+                                                                <extractorInfo extractorType="query">
+                                                                    <extractorProperties type="com.fnfr.svt.mapping.execution.extractors.QueryDataExtractorPropertyGroup" declareNoMatchIssue="false">
+                                                                        <query>mapped/Json/resourceArray/uuid</query>
+                                                                    </extractorProperties>
+                                                                </extractorInfo>
+                                                                <processorInfo ruleType="store">
+                                                                    <ruleProperties type="com.fnfr.svt.execution.builtin.processors.StoreProcessorPropertyGroup">
+                                                                        <storageLocation>uuid</storageLocation>
+                                                                        <responseValue type="com.fnfr.documents.PropertyBoolean">false</responseValue>
+                                                                        <variable type="com.fnfr.documents.PropertyBoolean">true</variable>
+                                                                    </ruleProperties>
+                                                                </processorInfo>
+                                                            </item>
+                                                            <item>
+                                                                <extractorInfo extractorType="query">
+                                                                    <extractorProperties type="com.fnfr.svt.mapping.execution.extractors.QueryDataExtractorPropertyGroup" declareNoMatchIssue="false">
+                                                                        <query>mapped/Json/resourceArray/ipAddress</query>
+                                                                    </extractorProperties>
+                                                                </extractorInfo>
+                                                                <processorInfo ruleType="store">
+                                                                    <ruleProperties type="com.fnfr.svt.execution.builtin.processors.StoreProcessorPropertyGroup">
+                                                                        <storageLocation>ipAddress</storageLocation>
+                                                                        <responseValue type="com.fnfr.documents.PropertyBoolean">false</responseValue>
+                                                                        <variable type="com.fnfr.documents.PropertyBoolean">true</variable>
+                                                                    </ruleProperties>
+                                                                </processorInfo>
+                                                            </item>
+                                                            <item>
+                                                                <extractorInfo extractorType="query">
+                                                                    <extractorProperties type="com.fnfr.svt.mapping.execution.extractors.QueryDataExtractorPropertyGroup" declareNoMatchIssue="false">
+                                                                        <query>mapped/Json/resourceArray/Hostname</query>
+                                                                    </extractorProperties>
+                                                                </extractorInfo>
+                                                                <processorInfo ruleType="store">
+                                                                    <ruleProperties type="com.fnfr.svt.execution.builtin.processors.StoreProcessorPropertyGroup">
+                                                                        <storageLocation>Hostname</storageLocation>
+                                                                        <responseValue type="com.fnfr.documents.PropertyBoolean">false</responseValue>
+                                                                        <variable type="com.fnfr.documents.PropertyBoolean">true</variable>
+                                                                    </ruleProperties>
+                                                                </processorInfo>
+                                                            </item>
+                                                            <item>
+                                                                <extractorInfo extractorType="query">
+                                                                    <extractorProperties type="com.fnfr.svt.mapping.execution.extractors.QueryDataExtractorPropertyGroup" declareNoMatchIssue="false">
+                                                                        <query>mapped/Json/resourceArray/SSH_Username</query>
+                                                                    </extractorProperties>
+                                                                </extractorInfo>
+                                                                <processorInfo ruleType="store">
+                                                                    <ruleProperties type="com.fnfr.svt.execution.builtin.processors.StoreProcessorPropertyGroup">
+                                                                        <storageLocation>SSH_Username</storageLocation>
+                                                                        <responseValue type="com.fnfr.documents.PropertyBoolean">false</responseValue>
+                                                                        <variable type="com.fnfr.documents.PropertyBoolean">true</variable>
+                                                                    </ruleProperties>
+                                                                </processorInfo>
+                                                            </item>
+                                                            <item>
+                                                                <extractorInfo extractorType="query">
+                                                                    <extractorProperties type="com.fnfr.svt.mapping.execution.extractors.QueryDataExtractorPropertyGroup" declareNoMatchIssue="false">
+                                                                        <query>mapped/Json/resourceArray/SSH_Password</query>
+                                                                    </extractorProperties>
+                                                                </extractorInfo>
+                                                                <processorInfo ruleType="store">
+                                                                    <ruleProperties type="com.fnfr.svt.execution.builtin.processors.StoreProcessorPropertyGroup">
+                                                                        <storageLocation>SSH_Password</storageLocation>
+                                                                        <responseValue type="com.fnfr.documents.PropertyBoolean">false</responseValue>
+                                                                        <variable type="com.fnfr.documents.PropertyBoolean">true</variable>
+                                                                    </ruleProperties>
+                                                                </processorInfo>
+                                                            </item>
+                                                        </analysisRules>
+                                                    </postProcessing>
+                                                    <applicationProperties type="com.fnfr.svt.execution.builtin.json.JsonPropertiesGroup">
+                                                        <action inherit="false">getJsonNode</action>
+                                                        <pathValue inherit="false" sub="true">{&quot;resourceArray/\\[$resourceIndex]&quot;}</pathValue>
+                                                        <documentName inherit="false">resourceArrayObject</documentName>
+                                                    </applicationProperties>
+                                                </item>
+                                            </nestedSteps>
+                                            <applicationProperties type="com.fnfr.svt.documents.EmptyPropertyGroup"/>
+                                        </item>
+                                        <item guid="70ec9b11-1c94-477c-b69c-bfc26a79ecfa" action="if" useFieldsInCommand="false">
+                                            <command>
+                                                <body>$ipAddress != &quot;&quot;</body>
+                                            </command>
+                                            <nestedSteps>
+                                                <item guid="a78be794-649e-46e1-8b65-346d1ed5c589" action="then" useFieldsInCommand="false">
+                                                    <nestedSteps>
+                                                        <item guid="95613838-7de1-4a6b-87e0-a30f00e75572" action="eval" useFieldsInCommand="false">
+                                                            <command>
+                                                                <body>set deviceHost $ipAddress</body>
+                                                            </command>
+                                                            <applicationProperties type="com.fnfr.svt.documents.EmptyPropertyGroup"/>
+                                                        </item>
+                                                    </nestedSteps>
+                                                    <applicationProperties type="com.fnfr.svt.documents.EmptyPropertyGroup"/>
+                                                </item>
+                                                <item guid="1968b260-f6a5-41c7-88fa-81c119bbbddc" action="else" useFieldsInCommand="false">
+                                                    <nestedSteps>
+                                                        <item guid="4ff5b70e-3495-4422-a764-7e9bb218b25b" action="if" useFieldsInCommand="false">
+                                                            <command>
+                                                                <body>$Hostname != &quot;&quot;</body>
+                                                            </command>
+                                                            <nestedSteps>
+                                                                <item guid="5b26897a-41d3-47e4-857e-0874b7f7e342" action="then" useFieldsInCommand="false">
+                                                                    <nestedSteps>
+                                                                        <item guid="3f7c847e-1b15-4d32-a4c5-2fa9c4de5942" action="eval" useFieldsInCommand="false">
+                                                                            <command>
+                                                                                <body>set deviceHost $Hostname</body>
+                                                                            </command>
+                                                                            <applicationProperties type="com.fnfr.svt.documents.EmptyPropertyGroup"/>
+                                                                        </item>
+                                                                    </nestedSteps>
+                                                                    <applicationProperties type="com.fnfr.svt.documents.EmptyPropertyGroup"/>
+                                                                </item>
+                                                            </nestedSteps>
+                                                            <applicationProperties type="com.fnfr.svt.documents.EmptyPropertyGroup"/>
+                                                        </item>
+                                                    </nestedSteps>
+                                                    <applicationProperties type="com.fnfr.svt.documents.EmptyPropertyGroup"/>
+                                                </item>
+                                            </nestedSteps>
+                                            <applicationProperties type="com.fnfr.svt.documents.EmptyPropertyGroup"/>
+                                        </item>
+                                        <item guid="dfbdbc3b-5da3-4cea-bcd4-d8b109d56d30" action="call" async="true" threadName="getDeviceStatus$resourceIndex" useFieldsInCommand="false">
+                                            <command>
+                                                <body>getDeviceStatusInBulk -deviceHost $deviceHost -jsonDocumentName resultJson -index $resourceIndex -uuid $uuid -SSH_Username $SSH_Username -SSH_Password $SSH_Password -includePorts $includePorts</body>
+                                            </command>
+                                            <applicationProperties type="com.fnfr.svt.documents.EmptyPropertyGroup"/>
+                                        </item>
+                                    </nestedSteps>
+                                    <applicationProperties type="com.fnfr.svt.documents.EmptyPropertyGroup"/>
+                                </item>
+                            </nestedSteps>
+                            <applicationProperties type="com.fnfr.svt.documents.EmptyPropertyGroup"/>
+                        </item>
+                    </nestedSteps>
+                    <applicationProperties type="com.fnfr.svt.documents.EmptyPropertyGroup"/>
+                </item>
+                <item guid="83914f46-a82a-4f5a-9ade-90aa40d6d010" action="comment" useFieldsInCommand="false">
+                    <command>
+                        <body>Wait for all getting device&apos;s status threads completed (getStatus threads)</body>
+                    </command>
+                    <nestedSteps>
+                        <item guid="220ac3a0-fd4c-4f17-890d-1fb00211b9a9" action="waitthread">
+                            <command>
+                                <body>getDeviceStatus\\\\d*</body>
+                            </command>
+                            <applicationProperties type="com.fnfr.svt.execution.kernel.WaitThreadPropertyGroup">
+                                <matchType>Regex</matchType>
+                            </applicationProperties>
+                        </item>
+                    </nestedSteps>
+                    <applicationProperties type="com.fnfr.svt.documents.EmptyPropertyGroup"/>
+                </item>
+                <item guid="818c338d-6a3e-4890-ba93-4c33af966668" action="comment" useFieldsInCommand="false">
+                    <command>
+                        <body>Query the array of resource objects and return the json response</body>
+                    </command>
+                    <nestedSteps>
+                        <item guid="7f5c530a-5dcc-40ef-b8b3-14239ab92d67" action="json" useFieldsInCommand="false">
+                            <command>
+                                <body>-action getJsonNode -globalScope true -editResponseStructure false -documentName resultJson -pathValue {&quot;array&quot;}</body>
+                            </command>
+                            <postProcessing>
+                                <analysisRules>
+                                    <item>
+                                        <extractorInfo extractorType="query">
+                                            <extractorProperties type="com.fnfr.svt.mapping.execution.extractors.QueryDataExtractorPropertyGroup">
+                                                <query>array()</query>
+                                            </extractorProperties>
+                                        </extractorInfo>
+                                        <processorInfo ruleType="store">
+                                            <ruleProperties type="com.fnfr.svt.execution.builtin.processors.StoreProcessorPropertyGroup">
+                                                <storageLocation>result</storageLocation>
+                                                <responseValue type="com.fnfr.documents.PropertyBoolean">false</responseValue>
+                                                <variable type="com.fnfr.documents.PropertyBoolean">true</variable>
+                                            </ruleProperties>
+                                        </processorInfo>
+                                    </item>
+                                </analysisRules>
+                            </postProcessing>
+                            <applicationProperties type="com.fnfr.svt.execution.builtin.json.JsonPropertiesGroup">
+                                <action inherit="false">getJsonNode</action>
+                                <pathValue inherit="false">{&quot;array&quot;}</pathValue>
+                                <documentName inherit="false">resultJson</documentName>
+                                <globalScope inherit="false">true</globalScope>
+                            </applicationProperties>
+                        </item>
+                        <item guid="f05ab49a-434d-4b79-bf4f-d65b5c7b842e" action="return">
+                            <command>
+                                <body>$result</body>
+                            </command>
+                            <applicationProperties type="com.fnfr.svt.documents.EmptyPropertyGroup"/>
+                        </item>
+                    </nestedSteps>
+                    <applicationProperties type="com.fnfr.svt.documents.EmptyPropertyGroup"/>
+                </item>
+            </steps>
+            <arguments>
+                <item name="includePorts">
+                    <defaultValue>false</defaultValue>
+                </item>
+                <item name="resourceArray">
+                    <defaultValue>\\[]</defaultValue>
+                </item>
+            </arguments>
+            <response>{}</response>
+        </item>
+        <item name="getDeviceStatusInBulk" defaultSessionProfile="application:com.fnfr.svt.applications.ssh">
+            <steps>
+                <item guid="51480d8c-c16a-4271-9060-0353f81571a0" action="eval" useFieldsInCommand="false">
+                    <command>
+                        <body>set deviceProperties &quot;{\\&quot;properties\\&quot;:{\\&quot;Hostname\\&quot;:\\&quot;unknown\\&quot;,\\&quot;Kernel_Release\\&quot;:\\&quot;unknown\\&quot;}}&quot;</body>
+                    </command>
+                    <applicationProperties type="com.fnfr.svt.documents.EmptyPropertyGroup"/>
+                </item>
+                <item guid="0caea09c-3d4f-4fd5-a7c1-06f30634acdd" action="eval" useFieldsInCommand="false">
+                    <command>
+                        <body>set devicePorts &quot;{\\&quot;ports\\&quot; : \\[]}&quot;</body>
+                    </command>
+                    <applicationProperties type="com.fnfr.svt.documents.EmptyPropertyGroup"/>
+                </item>
+                <item guid="ff2329b8-7282-4af1-a3f3-c8d6cd1b3c4d" action="comment" useFieldsInCommand="false">
+                    <command>
+                        <body>Start new SSH session for getting the device&apos;s status</body>
+                    </command>
+                    <nestedSteps>
+                        <item guid="d6526d0a-0489-45d4-844a-bfa535e809be" action="eval" useFieldsInCommand="false">
+                            <command>
+                                <body>set deviceHostStatus &quot;online&quot;</body>
+                            </command>
+                            <applicationProperties type="com.fnfr.svt.documents.EmptyPropertyGroup"/>
+                        </item>
+                        <item guid="4d9b9652-ed45-41b6-a73f-dddd836647fe" action="eval" useFieldsInCommand="false">
+                            <command>
+                                <body>set session &quot;threadStatus$index&quot;</body>
+                            </command>
+                            <applicationProperties type="com.fnfr.svt.documents.EmptyPropertyGroup"/>
+                        </item>
+                        <item guid="b91efc48-787a-4e6d-b29c-53d3dd5ce3b0" action="open" session="$session" useFieldsInCommand="false">
+                            <command>
+                                <body>session_profiles/ssh.ffsp</body>
+                            </command>
+                            <eventHandlers>
+                                <item name="OnTerminalOpenConnectionFail">
+                                    <item actionId="DeclareExecutionIssue">
+                                        <actionProperties type="com.fnfr.svt.execution.builtin.actions.ExecutionIssuePropertyGroup">
+                                            <message>Error attempting to open connection to server: {0}</message>
+                                        </actionProperties>
+                                    </item>
+                                    <item actionId="Eval">
+                                        <actionProperties type="com.fnfr.svt.execution.builtin.actions.EvalActionPropertyGroup">
+                                            <statement>set deviceHostStatus &quot;offline&quot;</statement>
+                                        </actionProperties>
+                                    </item>
+                                </item>
+                                <item name="OnMappingFail">
+                                    <item actionId="DeclareExecutionIssue">
+                                        <actionProperties type="com.fnfr.svt.execution.builtin.actions.ExecutionIssuePropertyGroup"/>
+                                    </item>
+                                </item>
+                            </eventHandlers>
+                            <applicationProperties type="com.fnfr.svt.documents.OpenStepPropertyGroup">
+                                <stepProperties type="com.fnfr.svt.editors.terminal.documents.StepDefaultProperties"/>
+                                <sessionProperties type="com.fnfr.svt.applications.ssh.documents.SSHProperties">
+                                    <ipAddress inherit="false">$deviceHost</ipAddress>
+                                    <user inherit="false">$SSH_Username</user>
+                                    <password inherit="false">Igs4oaxU0yq3Le3BEWotvQ==</password>
+                                </sessionProperties>
+                                <sessionClass type="com.fnfr.svt.documents.EmptyPropertyGroup"/>
+                                <sessionVersion type="com.fnfr.svt.documents.EmptyPropertyGroup"/>
+                            </applicationProperties>
+                        </item>
+                        <item guid="782b1691-a43a-4284-b362-2117c0d13256" action="if" useFieldsInCommand="false">
+                            <command>
+                                <body>$deviceHostStatus == &quot;online&quot;</body>
+                            </command>
+                            <nestedSteps>
+                                <item guid="a6fe3089-0143-4e21-b158-5e343be767cb" action="then" useFieldsInCommand="false">
+                                    <nestedSteps>
+                                        <item guid="40428224-5495-495d-8d4e-075a571aec69" action="call" useFieldsInCommand="false">
+                                            <command>
+                                                <body>getDeviceProperties -session $session</body>
+                                            </command>
+                                            <postProcessing>
+                                                <storeResponseAt>deviceProperties</storeResponseAt>
+                                                <storeResponseText>true</storeResponseText>
+                                            </postProcessing>
+                                            <applicationProperties type="com.fnfr.svt.documents.EmptyPropertyGroup"/>
+                                        </item>
+                                        <item guid="ffc5dfa3-dfaf-4229-b2d3-ccb17d50abf2" action="if" useFieldsInCommand="false">
+                                            <command>
+                                                <body>$includePorts</body>
+                                            </command>
+                                            <nestedSteps>
+                                                <item guid="4dc9927f-abcf-41d4-97fb-c017c5b5f7a2" action="then" useFieldsInCommand="false">
+                                                    <nestedSteps>
+                                                        <item guid="fafae097-4fe1-4ce4-8596-218ba8ed8013" action="call" useFieldsInCommand="false">
+                                                            <command>
+                                                                <body>getDevicePorts -session $session</body>
+                                                            </command>
+                                                            <postProcessing>
+                                                                <storeResponseAt>devicePorts</storeResponseAt>
+                                                                <storeResponseText>true</storeResponseText>
+                                                            </postProcessing>
+                                                            <applicationProperties type="com.fnfr.svt.documents.EmptyPropertyGroup"/>
+                                                        </item>
+                                                    </nestedSteps>
+                                                    <applicationProperties type="com.fnfr.svt.documents.EmptyPropertyGroup"/>
+                                                </item>
+                                            </nestedSteps>
+                                            <applicationProperties type="com.fnfr.svt.documents.EmptyPropertyGroup"/>
+                                        </item>
+                                    </nestedSteps>
+                                    <applicationProperties type="com.fnfr.svt.documents.EmptyPropertyGroup"/>
+                                </item>
+                            </nestedSteps>
+                            <applicationProperties type="com.fnfr.svt.documents.EmptyPropertyGroup"/>
+                        </item>
+                    </nestedSteps>
+                    <applicationProperties type="com.fnfr.svt.documents.EmptyPropertyGroup"/>
+                </item>
+                <item guid="7e447e27-e385-4682-af8a-144b72b22417" action="comment" useFieldsInCommand="false">
+                    <command>
+                        <body>Add device object into global JSON document at index 0</body>
+                    </command>
+                    <nestedSteps>
+                        <item guid="9a25fb19-4d9e-4f03-a131-7c99ec03a8f3" action="json" useFieldsInCommand="false">
+                            <command>
+                                <body>-action createJson -documentName resultJson -fromFile false -jsonString {\\&quot;uuid\\&quot;:\\&quot;${uuid}\\&quot;,\\&quot;status\\&quot;:\\&quot;${deviceHostStatus}\\&quot;}</body>
+                            </command>
+                            <applicationProperties type="com.fnfr.svt.execution.builtin.json.JsonPropertiesGroup">
+                                <action inherit="false">createJson</action>
+                                <jsonString inherit="false" sub="true">{\\&quot;uuid\\&quot;:\\&quot;${uuid}\\&quot;,\\&quot;status\\&quot;:\\&quot;${deviceHostStatus}\\&quot;}</jsonString>
+                                <documentName inherit="false">resultJson</documentName>
+                            </applicationProperties>
+                        </item>
+                        <item guid="1d27fd5b-ecfc-4665-a4ff-7ee1b2d1ca58" action="json" useFieldsInCommand="false">
+                            <command>
+                                <body>-action addJsonNode -editResponseStructure false -documentName resultJson -pathValue {\\&quot;/\\&quot;:  ${deviceProperties}}</body>
+                            </command>
+                            <applicationProperties type="com.fnfr.svt.execution.builtin.json.JsonPropertiesGroup">
+                                <action inherit="false">addJsonNode</action>
+                                <pathValue inherit="false" sub="true">{\\&quot;/\\&quot;:  ${deviceProperties}}</pathValue>
+                                <documentName inherit="false">resultJson</documentName>
+                                <globalScope inherit="false" defaultValue=""/>
+                            </applicationProperties>
+                        </item>
+                        <item guid="6c143929-9eb8-42ad-99ea-fcc25df386eb" action="json" useFieldsInCommand="false">
+                            <command>
+                                <body>-action addJsonNode -editResponseStructure false -documentName resultJson -pathValue {\\&quot;/\\&quot;:  ${devicePorts}}</body>
+                            </command>
+                            <applicationProperties type="com.fnfr.svt.execution.builtin.json.JsonPropertiesGroup">
+                                <action inherit="false">addJsonNode</action>
+                                <pathValue inherit="false" sub="true">{\\&quot;/\\&quot;:  ${devicePorts}}</pathValue>
+                                <documentName inherit="false">resultJson</documentName>
+                                <globalScope inherit="false" defaultValue=""/>
+                            </applicationProperties>
+                        </item>
+                        <item guid="5bfd2d24-d842-4910-9cb6-6a57d0e8239d" action="json" useFieldsInCommand="false">
+                            <command>
+                                <body>-action addJsonNode -globalScope true -editResponseStructure false -documentName ${jsonDocumentName} -pathValue {\\&quot;array/\\[0]\\&quot;: \\[${resultJson}]}</body>
+                            </command>
+                            <applicationProperties type="com.fnfr.svt.execution.builtin.json.JsonPropertiesGroup">
+                                <action inherit="false">addJsonNode</action>
+                                <pathValue inherit="false" sub="true">{\\&quot;array/\\[0]\\&quot;: \\[${resultJson}]}</pathValue>
+                                <documentName inherit="false" sub="true">${jsonDocumentName}</documentName>
+                                <globalScope inherit="false">true</globalScope>
+                            </applicationProperties>
+                        </item>
+                    </nestedSteps>
+                    <applicationProperties type="com.fnfr.svt.documents.EmptyPropertyGroup"/>
+                </item>
+                <item guid="f958c14c-bd89-4097-be72-25545cddf1e5" action="comment" useFieldsInCommand="false">
+                    <command>
+                        <body>Close opened process session</body>
+                    </command>
+                    <nestedSteps>
+                        <item guid="02d04a4e-5336-4724-b314-5a2e574156aa" action="close" session="$session">
+                            <applicationProperties type="com.fnfr.svt.editors.terminal.documents.StepDefaultProperties"/>
+                        </item>
+                    </nestedSteps>
+                    <applicationProperties type="com.fnfr.svt.documents.EmptyPropertyGroup"/>
+                </item>
+            </steps>
+            <arguments>
+                <item name="index">
+                    <defaultValue>0</defaultValue>
+                    <isMandatory>true</isMandatory>
+                </item>
+                <item name="uuid">
+                    <isMandatory>true</isMandatory>
+                </item>
+                <item name="deviceHost">
+                    <isMandatory>true</isMandatory>
+                </item>
+                <item name="SSH_Username">
+                    <isMandatory>true</isMandatory>
+                </item>
+                <item name="SSH_Password">
+                    <isMandatory>true</isMandatory>
+                </item>
+                <item name="includePorts">
+                    <defaultValue>true</defaultValue>
+                    <isMandatory>true</isMandatory>
+                </item>
+                <item name="jsonDocumentName">
+                    <defaultValue>resultJson</defaultValue>
+                    <isMandatory>true</isMandatory>
+                </item>
+            </arguments>
+            <response>{}</response>
         </item>
     </procedures>
 </testCase>

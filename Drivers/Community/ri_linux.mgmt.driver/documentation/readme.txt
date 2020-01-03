@@ -37,3 +37,6 @@ Discover the switch's ports
 
 ## Changelog
 1.0.0 Initial release
+1.1.0 Added support for isBulkSupported, the new realtime inventory refresh capability in 8.1 (updates a set of like
+      resources in one bulk operation via SLC agents in a pool called realtime)
+      
